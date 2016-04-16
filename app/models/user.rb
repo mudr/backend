@@ -11,7 +11,7 @@ class User < ActiveRecord::Base
 		}
 	validates :auth_token, presence: true
 	validates :mood, presence: true,
-	format: {
+	inclusion: {
 		in: 1..2,
 		message: "MOOD IS EQUAL TO 1 THROUGH 2"
 	}
