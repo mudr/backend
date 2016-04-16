@@ -13,8 +13,10 @@ Rails.application.routes.draw do
   post "post", to: "post#create"
   delete "post/:id", to: "post#delete"
 
-  post "posts/:id", to: "comments#create"
-
+  post "post/:id", to: "comments#create"
+  patch "post/:id", to: "comments#choose_top_comment"
+  patch "post/:id", to: "comments#choose_bad_comment"
+  
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 
