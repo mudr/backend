@@ -5,6 +5,7 @@ class SignUpController < ApplicationController
     @user = User.new(username: params['username'],
                      avatar: params['avatar'],
                      email: params['email'],
+                     mood: params['mood'],
                      password: params['password'])
     @user.ensure_auth_token
     if @user.save
@@ -31,7 +32,7 @@ class SignUpController < ApplicationController
     @user = User.find_by(username: params["username"])
     if @user.authenticate(params["password"])
       @user.destroy
-        render plain: "USER DESTROYED", 
+        render plain: "USER DESTROYED",
         status: :accepted
     else
       render json: { error: "UNAUTHORIZED" },
