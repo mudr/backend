@@ -17,6 +17,23 @@ class SignUpController < ApplicationController
     end
   end
 
+  def edit
+    @user = User.find(params["id"])
+    render :edit, locals: {user: @user}
+  end
+
+  def update
+    right_now = DateTime.now
+    @user = User.find(params["id"])
+    @user.update(username: params["title"],
+                email: params["email"],
+                password: params["password"],
+                avatar: params["content"],
+                mood: params["mood"])
+    @post.updated_at = right_now
+    render "create.json.jbuilder", status: :ok
+  end
+
   def login
     @user = User.find_by!(username: params["username"])
     if @user.authenticate(params["password"])
