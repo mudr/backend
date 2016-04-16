@@ -27,7 +27,7 @@ class PostsController < ApplicationController
     right_now = DateTime.now
     @post = Post.find(params["id"])
     @post.update(title: params["title"],
-                content: params["content"]
+                content: params["content"],
                 active: params["active"])
     @post.updated_at = right_now
     redirect_to :root
