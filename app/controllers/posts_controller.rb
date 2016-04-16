@@ -12,7 +12,8 @@ class PostsController < ApplicationController
 
   def create
     new_post = current_user.posts.create(title: params["title"],
-                           content: params["content"]
+                           content: params["content"],
+                           mood_at_time: current_user.mood,
                            active: true)
     redirect_to :root
   end
