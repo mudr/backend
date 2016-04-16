@@ -1,4 +1,5 @@
 class SignUpController < ApplicationController
+  skip_before_filter  :verify_authenticity_token, only: [:create, :login]
 
   def create
     @user = User.new(username: params['username'],
@@ -14,4 +15,17 @@ class SignUpController < ApplicationController
                      status: :unprocessable_entity
     end
   end
+
+  def destroy
+    @user = User.find_by(username: params["username"])
+    if @user.authenticate(params["password"])
+      @user.destroy
+        render plain: "USER DESTROYED", 
+        status: :accepted
+    else
+      render json: { error: "UNAUTHORIZED" },
+        status: :unauthorized
+    end
+  end
+  
 end
