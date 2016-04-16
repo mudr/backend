@@ -10,6 +10,43 @@ class CommentsController < ApplicationController
     redirect_to posts_display_path(params["id"])
   end
 
+  def choose_top_comment
+    @comment = Comment.find(params["id"])
+    @user = User.find_by(id: @comment.user_id)
+    @post = Post.find_by(id: @comment.post_id)
+    if !@post.point_given && !@post.point_taken
+      @comment.top_comment = true
+      @user.points += 1
+      @post.point_given = true
+      @post.active = false
+      render "show.json.jbuilder", status: :ok
+    elsif !@post.point_given
+      render json: { message: "COMMENT IS ALREADY 'TOP COMMENT'"}
+            status: :unauthorized
+    else
+      render json: { message: "'BAD COMMENT' CANNOT BE 'TOP COMMENT'"}
+            status: :unauthorized
+    end
+  end
+
+  def choose_bad_comment
+    @comment = Comment.find(params["id"])
+    @user = User.find_by(id: @comment.user_id)
+    @post = Post.find_by(id: @comment.post_id)
+    if !@post.point_given && !@post.point_taken
+      @comment.bad_comment = true
+      @user.points -= 1
+      @post.point_taken = true
+      render "show.json.jbuilder", status: :ok
+    elsif !@post.point_given
+      render json: { message: "'TOP COMMENT' CANNOT BE 'BAD COMMENT'"}
+            status: :unauthorized
+    else
+      render json: { message: "COMMENT IS ALREADY A 'BAD COMMENT'"}
+            status: :unauthorized
+    end
+  end
+
   def edit
     @comment = Comment.find(params["id"])
     render :edit, locals: {comment: @comment}
