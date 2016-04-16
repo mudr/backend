@@ -10,6 +10,25 @@ class CommentsController < ApplicationController
     redirect_to posts_display_path(params["id"])
   end
 
+  def choose_top_comment
+    @comment = Comment.find(params["id"])
+    user = User.find_by(id: @comment.user_id)
+    post = Post.find_by(id: @comment.post_id)
+    @comment.top_comment = true
+    user.points += 1
+    post.point_given = true
+    post.active = false
+  end
+
+  def choose_bad_comment
+    @comment = Comment.find(params["id"])
+    user = User.find_by(id: @comment.user_id)
+    post = Post.find_by(id: @comment.post_id)
+    @comment.bad_comment = true
+    user.points -= 1
+    post.point_given = true
+  end
+
   def edit
     @comment = Comment.find(params["id"])
     render :edit, locals: {comment: @comment}
