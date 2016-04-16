@@ -16,9 +16,7 @@ class PostsController < ApplicationController
                            content: params["content"],
                            mood_at_time: current_user.mood,
                            active: true)
-    render json: { post: new_post.as_json(only: [:title, :content,
-                                          :mood_at_time, :active]) },
-                   status: :created
+    render "show.json.jbuilder", status: :created
   end
 
   def edit
