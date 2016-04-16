@@ -6,7 +6,8 @@ class SignUpController < ApplicationController
                      avatar: params['avatar'],
                      email: params['email'],
                      mood: params['mood'],
-                     password: params['password'])
+                     password: params['password'],
+                     points: 0)
     @user.ensure_auth_token
     if @user.save
       render "create.json.jbuilder", status: :created
