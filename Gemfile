@@ -32,6 +32,9 @@ gem "aws-sdk", '< 2.0'
 
 gem "paperclip"
 
+#add CORS 
+gem 'rack-cors', require: "rack/cors"
+
 # Use Unicorn as the app server
 # gem 'unicorn'
 
