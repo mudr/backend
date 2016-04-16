@@ -2,8 +2,10 @@ class PostsController < ApplicationController
   before_action :authenticate!, only: [:new, :create, :edit, :update, :delete]
 
   def index
+    
     @posts = Post.all
-    render :index, locals: { posts: @posts }
+    @users = User.all
+    render "index.json.jbuilder", status: :ok
   end
 
   def new
