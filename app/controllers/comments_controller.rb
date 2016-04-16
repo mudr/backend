@@ -21,10 +21,10 @@ class CommentsController < ApplicationController
       @post.active = false
       render "show.json.jbuilder", status: :ok
     elsif !@post.point_given
-      render json: { message: "COMMENT IS ALREADY 'TOP COMMENT'"}
+      render json: { message: "COMMENT IS ALREADY 'TOP COMMENT'"},
             status: :unauthorized
     else
-      render json: { message: "'BAD COMMENT' CANNOT BE 'TOP COMMENT'"}
+      render json: { message: "'BAD COMMENT' CANNOT BE 'TOP COMMENT'"},
             status: :unauthorized
     end
   end
