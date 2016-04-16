@@ -46,7 +46,7 @@ class PostsController < ApplicationController
 
   def show
     @post = Post.find(params["id"])
-    @comments = Post.comments.all
+    @comments = @post.comments.all
     render "show.json.jbuilder", status: :ok
   end
 
