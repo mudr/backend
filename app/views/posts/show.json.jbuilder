@@ -4,3 +4,5 @@ json.post_mood @post.mood_at_time
 json.active @post.active
 json.comments @post.comments
 
+
+
