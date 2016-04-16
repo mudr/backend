@@ -37,7 +37,8 @@ class SignUpController < ApplicationController
 
   def login
     @user = User.find_by!(username: params["username"])
-    if @user.authenticate(params["password"])
+    set_disable
+    if @user.authenticate(params["password"]) && @user.enabled
       render json: { user: @user.as_json(only: [:username, :auth_token]) },
           status: :ok
     else
@@ -58,4 +59,10 @@ class SignUpController < ApplicationController
     end
   end
 
+  def set_disable
+    @user = User.find(params["id"])
+    if @user.points < -3
+      @user.enabled = false
+    end
+  end
 end
