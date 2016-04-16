@@ -2,8 +2,8 @@ class PostsController < ApplicationController
   before_action :authenticate!, only: [:new, :create, :edit, :update, :delete]
 
   def index
-    @posts = Post.all
-    @users = User.all
+    @posts = Post.where(active: true)
+    @users = User.where(enabled: true)
     render "index.json.jbuilder", status: :ok
   end
 
@@ -16,7 +16,7 @@ class PostsController < ApplicationController
                                       content: params["content"],
                                       mood_at_time: current_user.mood,
                                       active: true)
-    if @post.save 
+    if @post.save
       render "create.json.jbuilder", status: :created
     else
       render json: { errors: @post.errors.full_messages },
