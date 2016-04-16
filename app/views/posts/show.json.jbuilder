@@ -5,7 +5,7 @@ json.active @post.active
 
 json.array! @comments do |comment|
 	json.comment_content comment.content
-	json.user comment.user_id
+	json.user comment.user.username
 	json.top_comment comment.top_comment
 	json.created comment.created_at
 	

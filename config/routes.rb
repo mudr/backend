@@ -2,16 +2,17 @@ Rails.application.routes.draw do
 
 
 
-  resources :user
-  resources :post
-  resources :comment
+  
+  resources :posts
+  resources :comments
 
   post "sign_up", to: "sign_up#create"
   delete "sign_up", to: "sign_up#destroy"
   post "login", to: "sign_up#login"
 
-  post "post", to: "post#create"
-  delete "post/:id", to: "post#delete"
+  post "posts/create", to: "posts#create"
+  post "post/new", to: "posts#new"
+  delete "post/:id", to: "posts#delete"
 
   post "posts/:id", to: "comments#create"
 

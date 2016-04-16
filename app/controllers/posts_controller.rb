@@ -12,11 +12,16 @@ class PostsController < ApplicationController
   end
 
   def create
-    new_post = current_user.posts.create(title: params["title"],
-                           content: params["content"],
-                           mood_at_time: current_user.mood,
-                           active: true)
-    render "show.json.jbuilder", status: :created
+    @post = current_user.posts.create(title: params["title"],
+                                      content: params["content"],
+                                      mood_at_time: current_user.mood,
+                                      active: true)
+    if @post.save 
+      render "create.json.jbuilder", status: :created
+    else
+      render json: { errors: @post.errors.full_messages },
+          status: :unprocessable_entity
+    end
   end
 
   def edit
@@ -32,8 +37,7 @@ class PostsController < ApplicationController
                   content: params["content"],
                   active: params["active"])
       @post.updated_at = right_now
-      render json: { post: @post.as_json(only: [:title, :content, :active]) },
-          status: :ok
+      render "create.json.jbuilder", status: :accepted
     else
       render json: { message: "You are not allowed to update an inactive post."},
           status: :unauthorized
