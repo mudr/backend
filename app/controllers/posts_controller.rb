@@ -2,7 +2,6 @@ class PostsController < ApplicationController
   before_action :authenticate!, only: [:new, :create, :edit, :update, :delete]
 
   def index
-    
     @posts = Post.all
     @users = User.all
     render "index.json.jbuilder", status: :ok
@@ -17,7 +16,9 @@ class PostsController < ApplicationController
                            content: params["content"],
                            mood_at_time: current_user.mood,
                            active: true)
-    redirect_to :root
+    render json: { post: new_post.as_json(only: [:title, :content,
+                                          :mood_at_time, :active]) },
+                   status: :created
   end
 
   def edit
@@ -28,11 +29,17 @@ class PostsController < ApplicationController
   def update
     right_now = DateTime.now
     @post = Post.find(params["id"])
-    @post.update(title: params["title"],
-                content: params["content"],
-                active: params["active"])
-    @post.updated_at = right_now
-    redirect_to :root
+    if @post.active
+      @post.update(title: params["title"],
+                  content: params["content"],
+                  active: params["active"])
+      @post.updated_at = right_now
+      render json: { post: @post.as_json(only: [:title, :content, :active]) },
+          status: :ok
+    else
+      render json: { message: "You are not allowed to update an inactive post."},
+          status: :unauthorized
+    end
   end
 
   def show
@@ -47,6 +54,5 @@ class PostsController < ApplicationController
       comment.destroy
     end
     @post.destroy
-    redirect_to :root
   end
 end
