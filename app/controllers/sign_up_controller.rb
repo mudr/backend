@@ -7,7 +7,8 @@ class SignUpController < ApplicationController
                      email: params['email'],
                      mood: params['mood'],
                      password: params['password'],
-                     points: 0)
+                     points: 0
+                     enabled: true)
     @user.ensure_auth_token
     if @user.save
       render "create.json.jbuilder", status: :created
