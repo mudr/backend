@@ -9,8 +9,7 @@ class SignUpController < ApplicationController
                      password: params['password'])
     @user.ensure_auth_token
     if @user.save
-      render json: { user: @user.as_json(only: [:username, :avatar, :email, :mood, :auth_token]) },
-                     status: :created
+      render "index.json.jbuilder", status: :created
     else
       render json: { errors: @user.errors.full_messages },
                      status: :unprocessable_entity
