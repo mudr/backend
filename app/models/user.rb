@@ -10,7 +10,11 @@ class User < ActiveRecord::Base
 			message: "USE VALID EMAIL FORMAT."
 		}
 	validates :auth_token, presence: true
-
+	validates :mood, presence: true,
+	format: {
+		in: 1..2,
+		message: "MOOD IS EQUAL TO 1 THROUGH 2"
+	}
 
 
 	def ensure_auth_token
