@@ -27,6 +27,16 @@ ActiveRecord::Schema.define(version: 20160416013657) do
     t.datetime "updated_at",   null: false
   end
 
+  create_table "posts", force: :cascade do |t|
+    t.string   "title"
+    t.text     "content"
+    t.integer  "user_id"
+    t.integer  "mood_at_time"
+    t.boolean  "active"
+    t.datetime "created_at",   null: false
+    t.datetime "updated_at",   null: false
+  end
+
   create_table "users", force: :cascade do |t|
     t.string   "username"
     t.string   "email"
