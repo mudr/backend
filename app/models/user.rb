@@ -15,6 +15,8 @@ class User < ActiveRecord::Base
 		in: 1..2,
 		message: "MOOD IS EQUAL TO 1 THROUGH 2"
 	}
+	validates :username, presence: true, uniqueness: true, length: { minimum: 4,
+	message: "USERNAME MUST BE 4 OR MORE CHARACTERS" }
 
 	########### Begin Paperclip stuff ############
 	has_attached_file :avatar, styles: { medium: "300x300>", thumb: "100x100>" }, default_url: "/images/:style/missing.png"
