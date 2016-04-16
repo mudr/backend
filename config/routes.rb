@@ -5,6 +5,8 @@ Rails.application.routes.draw do
   resources :user
   resources :post
   resources :comment
+
+  post "sign_up", to: "sign_up#create"
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 
