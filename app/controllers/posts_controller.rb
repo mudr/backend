@@ -44,7 +44,8 @@ class PostsController < ApplicationController
 
   def show
     @post = Post.find(params["id"])
-    render :show
+    @comments = Post.comments.all
+    render "show.json.jbuilder", status: :ok
   end
 
   def delete
