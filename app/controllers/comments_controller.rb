@@ -19,7 +19,7 @@ class CommentsController < ApplicationController
       @user.update(points: (@user.points += 1))
       @post.update(point_given: true)
       @post.update(active: false)
-      render "show.json.jbuilder", status: :ok
+      render "posts/show.json.jbuilder", status: :ok
     elsif !@post.point_given
       render json: { message: "COMMENT IS ALREADY 'TOP COMMENT'"},
             status: :unauthorized
@@ -37,7 +37,7 @@ class CommentsController < ApplicationController
       @comment.update(bad_comment: true)
       @user.update(points: (@user.points -= 1))
       @post.update(point_taken: true)
-      render "show.json.jbuilder", status: :ok
+      render "posts/show.json.jbuilder", status: :ok
     elsif !@post.point_given
       render json: { message: "'TOP COMMENT' CANNOT BE 'BAD COMMENT'"},
             status: :unauthorized
