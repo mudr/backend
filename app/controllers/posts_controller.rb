@@ -36,8 +36,7 @@ class PostsController < ApplicationController
     @post = Post.find(params["id"])
     if @post.active
       @post.update(title: params["title"],
-                  content: params["content"],
-                  active: params["active"])
+                  content: params["content"])
       @post.updated_at = right_now
       render "create.json.jbuilder", status: :accepted
     else
