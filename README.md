@@ -23,6 +23,8 @@ Params:
 * username: string
 * email: string
 * password: string
+* mood: integer
+* avatar: attached_file
 
 
 Returns 201 Created on Success and 422 Unprocessable Entity in case of failure.
@@ -34,38 +36,23 @@ Returns 201 Created on Success and 422 Unprocessable Entity in case of failure.
 	"email:" "Bob@bob.bob",
 	"password": "password"
 	"mood": 1
+	"avatar": "attached_file"
 }
 ...`
 
 **Response**
 `...
 {
-	"user": {
-		"username": "bob",
-		"email": "bob@bob.bob",
-		"auth_token": "c92692fd6c686ef6985b8eb124d37488"
-		"avatar": "<Amazon S3 path>"
-		"user_id": "1"
-		"points": "0"
-	}
+  "user": "boingboing",
+  "avatar": "amazon S3 url",
+  "id": 12,
+  "email": "email@email.com",
+  "points": 0,
+  "mood": 1,
+  "auth_token": "authtoken string"
 }
 ...`
 
-#### DELETE /registrations
-
-*This route is for deleting users.*
-
-Params:
-* username:string
-
-Returns 202 Accepted on Success and 401 Unauthorized in case of failure.
-
-**Request**
-`...
-{
-	"username": "Bob"
-}
-...`
 
 #### POST /login
 
@@ -80,107 +67,155 @@ Returns 200 OK on Success and 401 Unauthorized in case of failure.
 `...
 {
 	"username": "Bob"
+	"mood": 1
+	"password": "password"
 }
 ...`
 
-#### POST /auth/test
-
-*This route displays the current logged in user.*
-
-#### GET /posts/index/:id/guesses
-
-*This route is for showing all guesses for the current image*
-
-Params:
-* Post ID: integer - this comes from the url (:id)
-
-Returns 200 OK on Success and will throw an ActiveRecord::Record not found exception on failure.
-
-#### POST /posts/index/:id/guesses
-
-*This route is for creating new guesses.*
-
-Params:
-* Post ID: integer - this comes from the url (:id)
-
-Returns 201 Created on success and 404 Not Found if the image id doesn't exist
-
-#### GET /posts/index
-
-*This route is for displaying an index of all images, followed by an array to be used as a scoreboard*
-
-Returns 200 OK on success.
-
-**Response** 
+** Response **
 `...
 {
-	"user": "tester",
-	"title": "newone",
-	"image": "http://imageurl",
-	"solution": "bombs",
-	"post_points": 1,
-	"guesses": [
-		{
-			"id": 1,
-			"user_id": 2,
-			"post_id": 4,
-			"guess": "tester",
-			"created_at": "2016-04-10T18:42:16:371Z",
-			"updated_at": "2016-04-10T18:42:16:371Z",
-			"correct": false
-		}
-	"solved": false
-	]
-}
-	{
-		"username": "tester"
-		"user_points": 0
-	}
-	{
-		"username": "newtester"
-		"user_points": 0
-	}
+  "user": {
+    "username": "boingboing",
+    "auth_token": "auth token"
+  }
 }
 ...`
+
+#### GET index
+
+*This route is for showing all posts. Renders username, title, and post_id in an array.*
+
+Returns 200 OK on Success
 
 #### POST /posts/create
 
-*This route is to create a new image contribution.*
+*This route is for creating new posts. Note: only users with a sad mood may make posts.*
+
+**Request**
+`...
+{
+	"title": "Life is hard"
+	"content": "I have to do stuff. Don't amke me do stuff"
+}
+...`
+
+** Response **
+`...
+{
+  "post": "life is hard",
+  "post_content": "I have to do stuff. Don't make me do stuff.",
+  "post_mood": 1,
+  "active": true
+}
+...`
+
+Returns 200 OK on Success
+
+#### POST /post/:id
+
+*This route is for creating an uplifting comment to cheer up the poster. The best comment can be selected as a Top Comment. Comment selected as Top Comment will give the commentor a point.*
+
+**Request**
+`...
+{
+	"content": "Find the joy in doing stuff"
+}
+...`
+
+** Response **
+`...
+{
+  "post": "life is hard",
+  "post_content": "I have to do stuff. Don't make me do stuff.",
+  "post_mood": 1,
+  "active": true,
+  "point_given": false,
+  "comments": [
+    {
+      "id": 25,
+      "content": "Do some jumping jacks!",
+      "user_id": 12,
+      "post_id": 15,
+      "mood_at_time": 1,
+      "top_comment": false,
+      "bad_comment": false,
+      "created_at": "2016-04-17T16:32:54.200Z",
+      "updated_at": "2016-04-17T16:32:54.200Z"
+    },
+    {
+      "id": 26,
+      "content": "Find the joy in doing stuff",
+      "user_id": 12,
+      "post_id": 15,
+      "mood_at_time": 1,
+      "top_comment": false,
+      "bad_comment": false,
+      "created_at": "2016-04-17T16:33:44.069Z",
+      "updated_at": "2016-04-17T16:33:44.069Z"
+    }
+  ]
+}
+...`
+
+Returns 200 OK on success.
+
+
+#### PATCH /comment/:id/choose_top_comment
+
+*This route is to choose the best uplifting comment. Only one comment can be chosen as the top comment. Once a comment is chosen, a point is given to the comment poster, point_given is set to true, and active is set to false.*
 
 Params:
-* tite: string
-* image: file
-* solution: string
+* Comment ID: integer - this comes from the url (:id)
 
 Returns 201 Created on success and 422 Unprocessable Entity on failure.
 
 **Request**
 `...
-{
-	"title": "latest",
-	"image:" (Attached File),
-	"solution": "fire"
-}
+	/comment/26/choose_top_comment
 ...`
 
 **Response**
 `...
 {
-	"user": "tester",
-	"title": "latest",
-	"image": "http://s3-us-west-2.amazonaws.com/ironpics/posts/images/000/000/007/original/this_is_fine.png?1460316596",
-	"solution": "fire",	
-	"points": 1
-
+  "post": "life is hard",
+  "post_content": "I have to do stuff. Don't make me do stuff.",
+  "post_mood": 1,
+  "active": false,
+  "point_given": true,
+  "comments": [
+    {
+      "id": 25,
+      "content": "Do some jumping jacks!",
+      "user_id": 12,
+      "post_id": 15,
+      "mood_at_time": 1,
+      "top_comment": false,
+      "bad_comment": false,
+      "created_at": "2016-04-17T16:33:14.276Z",
+      "updated_at": "2016-04-17T16:33:14.276Z"
+    },
+    {
+      "id": 26,
+      "content": "Find the joy in doing stuff",
+      "user_id": 12,
+      "post_id": 15,
+      "mood_at_time": 1,
+      "top_comment": true,
+      "bad_comment": false,
+      "created_at": "2016-04-17T16:33:44.069Z",
+      "updated_at": "2016-04-17T16:39:52.912Z"
+    }
+  ]
 }
 ...`
 
-#### DELETE /posts/:id
+#### PATCH /comment/:id/choose_bad_comment
 
-*This route is to delete an image post.*
+*This route is to choose Bad Comments. These are comments that make the user feel worse and will be deleted from the database and the commentor will lose a point. If the user's points drop below -3, the user will become inactive.*
 
 Params:
-* Post ID: integer - this comes from the url (:id)
+* Comment ID: integer - this comes from the url (:id)
 
 Returns 202 Accepted on Success and 401 Unauthorized in case of failure.
 
