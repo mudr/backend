@@ -6,9 +6,10 @@ Rails.application.routes.draw do
   resources :posts
   resources :comments
 
+
+  root to: "sign_up#login"
   post "sign_up", to: "sign_up#create"
   delete "sign_up", to: "sign_up#destroy"
-  post "login", to: "sign_up#login"
 
   post "posts/create", to: "posts#create"
   post "post/new", to: "posts#new"
