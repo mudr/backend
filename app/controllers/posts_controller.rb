@@ -64,4 +64,5 @@ class PostsController < ApplicationController
     end
     @post.destroy
   end
+  render "show.json.jbuilder", status: :ok
 end
