@@ -61,7 +61,7 @@ class SignUpController < ApplicationController
   end
 
   def set_disable
-    @user = User.find(params["id"])
+    @user = User.find_by(username: params["username"])
     if @user.points < -3
       @user.enabled = false
     end
