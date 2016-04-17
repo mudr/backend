@@ -65,4 +65,17 @@ class SignUpController < ApplicationController
       @user.enabled = false
     end
   end
+
+  def leader_scores
+    @users = User.all
+    @leaders = @users.points.sort
+    @leaders.take(10)
+  end
+
+  def display_leaders
+    leader_scores.each do |leader|
+      @users = User.find_by(points: leader)
+    end
+    @users
+  end
 end
