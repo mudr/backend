@@ -37,6 +37,7 @@ class SignUpController < ApplicationController
 
   def login
     @user = User.find_by!(username: params["username"])
+    @user.update(mood: params["mood"])
     set_disable
     if @user.authenticate(params["password"]) && @user.enabled
       render json: { user: @user.as_json(only: [:username, :auth_token]) },
