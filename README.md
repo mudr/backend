@@ -1,6 +1,6 @@
-# IronPics API
+# mÜdr API
 
-API For THE IRON YARD hackathon - mUdr - an uplifting app
+API For THE IRON YARD hackathon April 2016 - mÜdr - an uplifting app
 
 ## General Rules
 User accounts require a username, email, password, avatar, and mood. Email must contain a "@" and "." for successful registration.
