@@ -15,7 +15,9 @@ class PostsController < ApplicationController
     @post = current_user.posts.create(title: params["title"],
                                       content: params["content"],
                                       mood_at_time: current_user.mood,
-                                      active: true)
+                                      active: true,
+                                      point_given: false,
+                                      point_taken: false)
     if @post.save
       render "create.json.jbuilder", status: :created
     else
