@@ -1,13 +1,10 @@
 Rails.application.routes.draw do
 
-
-
-
   resources :posts
   resources :comments
 
-
   root to: "sign_up#login"
+  post "login", to: "sign_up#login"
   post "sign_up", to: "sign_up#create"
   delete "sign_up", to: "sign_up#destroy"
 
@@ -18,6 +15,8 @@ Rails.application.routes.draw do
   post "post/:id", to: "comments#create"
   patch "comment/:id/choose_top_comment", to: "comments#choose_top_comment"
   patch "comment/:id/choose_bad_comment", to: "comments#choose_bad_comment"
+
+  get "index", to: ""
 
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
