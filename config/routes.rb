@@ -16,7 +16,7 @@ Rails.application.routes.draw do
   patch "comment/:id/choose_top_comment", to: "comments#choose_top_comment"
   patch "comment/:id/choose_bad_comment", to: "comments#choose_bad_comment"
 
-  get "index", to: ""
+  get "index", to: "posts#index"
 
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
