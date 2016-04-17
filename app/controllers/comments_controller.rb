@@ -7,7 +7,7 @@ class CommentsController < ApplicationController
                                         mood_at_time: current_user.mood,
                                         top_comment: false,
                                         bad_comment: false)
-    render "posts/show.json.jbuilder", status: :created
+    render "posts/show.json.jbuilder", status: :ok
   end
 
   def choose_top_comment

@@ -20,7 +20,7 @@ class PostsController < ApplicationController
                                         point_given: false,
                                         point_taken: false)
       if @post.save
-        render "create.json.jbuilder", status: :created
+        render "create.json.jbuilder", status: :ok
       else
         render json: { errors: @post.errors.full_messages },
             status: :unprocessable_entity
@@ -65,5 +65,5 @@ class PostsController < ApplicationController
     @post.destroy
     render "show.json.jbuilder", status: :ok
   end
-  
+
 end
