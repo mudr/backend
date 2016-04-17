@@ -55,13 +55,13 @@ class CommentsController < ApplicationController
   def update
     @comment = Comment.find(params["id"])
     @comment.update(content: params["content"])
-    redirect_to posts_display_path(params["post_id"])
+    render "posts/show.json.jbuilder", status: :ok
   end
 
   def delete
     @comment = Comment.find(params["id"])
     post_id = @comment.post_id
     @comment.destroy
-    redirect_to posts_display_path(post_id)
+    render "posts/show.json.jbuilder", status: :ok
   end
 end
