@@ -12,17 +12,22 @@ class PostsController < ApplicationController
   end
 
   def create
-    @post = current_user.posts.create(title: params["title"],
-                                      content: params["content"],
-                                      mood_at_time: current_user.mood,
-                                      active: true,
-                                      point_given: false,
-                                      point_taken: false)
-    if @post.save
-      render "create.json.jbuilder", status: :created
+    if current_user.mood == 1
+      @post = current_user.posts.create(title: params["title"],
+                                        content: params["content"],
+                                        mood_at_time: current_user.mood,
+                                        active: true,
+                                        point_given: false,
+                                        point_taken: false)
+      if @post.save
+        render "create.json.jbuilder", status: :created
+      else
+        render json: { errors: @post.errors.full_messages },
+            status: :unprocessable_entity
+      end
     else
-      render json: { errors: @post.errors.full_messages },
-          status: :unprocessable_entity
+      render json: { message: "Only sad people are able to post."},
+          status: :unauthorized
     end
   end
 
