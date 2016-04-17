@@ -15,10 +15,10 @@ class CommentsController < ApplicationController
     @user = User.find_by(id: @comment.user_id)
     @post = Post.find_by(id: @comment.post_id)
     if !@post.point_given && !@post.point_taken
-      @comment.top_comment = true
-      @user.points += 1
-      @post.point_given = true
-      @post.active = false
+      @comment.update(top_comment: true)
+      @user.update(points: (@user.points += 1))
+      @post.update(point_given: true)
+      @post.update(active: false)
       render "show.json.jbuilder", status: :ok
     elsif !@post.point_given
       render json: { message: "COMMENT IS ALREADY 'TOP COMMENT'"},
@@ -34,9 +34,9 @@ class CommentsController < ApplicationController
     @user = User.find_by(id: @comment.user_id)
     @post = Post.find_by(id: @comment.post_id)
     if !@post.point_given && !@post.point_taken
-      @comment.bad_comment = true
-      @user.points -= 1
-      @post.point_taken = true
+      @comment.update(bad_comment: true)
+      @user.update(points: (@user.points -= 1))
+      @post.update(point_taken: true)
       render "show.json.jbuilder", status: :ok
     elsif !@post.point_given
       render json: { message: "'TOP COMMENT' CANNOT BE 'BAD COMMENT'"},
