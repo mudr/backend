@@ -75,8 +75,8 @@ class SignUpController < ApplicationController
 
   def display_leaders
     leader_scores.each do |leader|
-      @users = User.find_by(points: leader)
+      @user = User.find_by(points: leader)
+      render json: { user: @user.as_json(only: [:username, :points])}
     end
-    @users
   end
 end
