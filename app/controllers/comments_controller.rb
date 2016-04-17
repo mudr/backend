@@ -37,6 +37,7 @@ class CommentsController < ApplicationController
       @comment.update(bad_comment: true)
       @user.update(points: (@user.points -= 1))
       @post.update(point_taken: true)
+      @comment.destroy
       render "posts/show.json.jbuilder", status: :ok
     elsif !@post.point_given
       render json: { message: "'TOP COMMENT' CANNOT BE 'BAD COMMENT'"},
