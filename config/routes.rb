@@ -2,7 +2,7 @@ Rails.application.routes.draw do
 
 
 
-  
+
   resources :posts
   resources :comments
 
@@ -15,9 +15,9 @@ Rails.application.routes.draw do
   delete "post/:id", to: "posts#delete"
 
   post "post/:id", to: "comments#create"
-  patch "post/:id", to: "comments#choose_top_comment"
-  patch "post/:id", to: "comments#choose_bad_comment"
-  
+  patch "comment/:id/choose_top_comment", to: "comments#choose_top_comment"
+  patch "comment/:id/choose_bad_comment", to: "comments#choose_bad_comment"
+
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 
