@@ -13,7 +13,7 @@ class User < ActiveRecord::Base
 	validates :mood, presence: true,
 	inclusion: {
 		in: 1..2,
-		message: "MOOD IS EQUAL TO 1 THROUGH 2"
+		message: "ENTER '1' IF YOU ARE SAD, ENTER '2' IF YOU ARE HAPPY"
 	}
 	validates :username, presence: true, uniqueness: true, length: { minimum: 4,
 	message: "USERNAME MUST BE 4 OR MORE CHARACTERS" }
