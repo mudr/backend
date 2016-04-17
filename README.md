@@ -1,6 +1,6 @@
 # IronPics API
 
-API For THE IRON YARD group project - Image guessing game
+API For THE IRON YARD hackathon - mUdr - an uplifting app
 
 ## General Rules
 User accounts require a username, email, password, avatar, and mood. Email must contain a "@" and "." for successful registration.
@@ -23,7 +23,7 @@ Params:
 * username: string
 * email: string
 * password: string
-* mood: integer
+
 
 Returns 201 Created on Success and 422 Unprocessable Entity in case of failure.
 
@@ -46,7 +46,6 @@ Returns 201 Created on Success and 422 Unprocessable Entity in case of failure.
 		"auth_token": "c92692fd6c686ef6985b8eb124d37488"
 		"avatar": "<Amazon S3 path>"
 		"user_id": "1"
-		"email": "user@user.com"
 		"points": "0"
 	}
 }
